@@ -8,10 +8,11 @@ import re
 
 GPU_USE = True
 GPU_remove_list = []
-threads_num = "6"
+threads_num = "4"
 MAX_PROCESS = 12
 
-exp_id_prefix = "F5"
+# exp_id_prefix = "F5"
+exp_id_prefix = "E2"
 
 # param_dict = {
 #     "--datan":["ml-100k"],    # ml-100k  ADS16  KuaiRec ml-1m
@@ -33,16 +34,16 @@ exp_id_prefix = "F5"
 # }
 
 param_dict = {
-    "--datan":["ml-100k", "KuaiRec"],    # ml-100k  ADS16  KuaiRec ml-1m
-    "-m":["GCNICF"],  # LGCNICF LGCNICF_FixG_LTS  LGCNICF_FixG_VI LGCNICF_DynamicG_VI ICF Pop Pos Random MF PosPlus
+    "--datan":["ml-100k"],    # ml-100k  ADS16  KuaiRec ml-1m
+    "-m":["GCNICF_LVI"],  # LGCNICF LGCNICF_FixG_LTS  LGCNICF_FixG_VI LGCNICF_DynamicG_VI ICF Pop Pos Random MF PosPlus
     "-d":[128],
-    "--lr":[5e-4],
-    "-v":[1],
+    "--lr":[5e-3],
+    "-v":[0.05],
     "-E":["UCB"],
     "-p":[0.5],
-    "--max_iter":[40000],
-    "--K":[5, 6],  # For GCN
-    "--save_cls":[1],
+    "--max_iter":[15000],
+    "--K":[3],  # For GCN
+    "--save_cls":[0],
     "--lambda_u":[1],
     "--test_iters":[1000],
     
@@ -51,6 +52,7 @@ param_dict = {
     "--task":["coldstart"],
     # "--test_para":["adjust"],
     
+    "--LVI_iters":[3, 4, 5],
     "--online_iter":[50],
     "--lossfunc": ["reg"],
 }

@@ -24,11 +24,12 @@ def parse_default_config(parser):
     parser.add_argument('--online_iter', default = 50, type = int, help='max_iter in coordinates descent')   
     parser.add_argument('--init', default = 1, type = int, help='normal init')   
 
-    parser.add_argument('--save_cls', default = 0, type = bool, help='save class')   
+    parser.add_argument('--save_cls', default = 0, type = int, help='save class')   
 
     parser.add_argument('--test_iters', default = 1000, type = int, help='test_iters')   
 
-    
+    parser.add_argument('--LVI_iters', default = 2, type = int, help='LVI EM iters')   
+        
 
     return parser
 
@@ -53,7 +54,7 @@ def parser_config(parser):
     
     parser.add_argument('--lossfunc', default = "reg", type = str, help='loss function, reg or classify')
     
-    parser.add_argument('--test_para', default = "0", type = str, help='for test')
+    parser.add_argument('--test_para', default = "0", type = str, help='for test constructing graph neightbors matrix.')
     return parser
 
 def config_args(args):

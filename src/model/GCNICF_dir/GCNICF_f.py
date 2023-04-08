@@ -50,7 +50,7 @@ class GCNICF(ModelBase):
         for i in range(test_num):
 
             ## DEBUG
-            # self.model_train(ui_cls, max_iter = 100000)
+            # self.model_train(ui_cls, max_iter = 1000)
 
             if i == 0:
                 ui_cls_online = copy.deepcopy(ui_cls)                
@@ -72,24 +72,6 @@ class GCNICF(ModelBase):
             
             result_df.to_csv( os.path.join(self.ec.save_path, "results_df.csv"))
         
-    # def copy_ui_cls(self,ui_cls):
-    #     new_ui_cls = UI_cls(self.para_dict, self.ec)
-    #     M = ui_cls.user_num
-    #     N = ui_cls.item_num
-
-    #     for i in range(M):
-            
-    #         user = ui_cls.get_user_by_index(i)
-    #         newuser = new_ui_cls.get_user(user.id)
-    #         newuser = user
-
-    #         user.mu = user.mu.detach()
-    #         user.rho = user.rho.detach()
-    #     for i in range(N):
-    #         item = ui_cls.get_item_by_index(i)
-    #         item.mu = item.mu.detach()
-    #         item.rho = item.rho.detach()
-
     def construct_model(self, ui_cls:UI_cls):
         """
             attribute:
@@ -212,45 +194,6 @@ class GCNICF(ModelBase):
 
     def VI_var(self,M):
         return self.VI_std(M) ** 2
-
-    # @property
-    # def EE_Mean(self):
-    #     """
-    #         E[E^T E]
-    #     """
-    #     E0 = torch.cat((self.U_mean, self.I_mean), 0) # (M+N, d)
-
-    #     E_rho = torch.cat((self.U_rho, self.I_rho), 0) # (M+N, d) 
-
-    #     std = self.VI_std(E_rho)
-
-    #     Mean = E0 @ E0.T + torch.diag((std ** 2).sum(1))        
-    #     return Mean.to(device = self.device)
-
-    # @property
-    # def EE_Var(self):
-    #     """
-    #         Var[E^T E]
-    #     """
-    #     E0 = torch.cat((self.U_mean, self.I_mean), 0) # (M+N, d)
-
-    #     E_rho = torch.cat((self.U_rho, self.I_rho), 0) # (M+N, d) 
-
-    #     var = self.VI_var(E_rho)
-        
-    #     B = (E0**2) @ var.T
-
-    #     Var = var @ var.T + B + B.T
-
-    #     Var_diag = (E0**4).sum(1) + 3 * (var **2).sum(1)
-
-    #     nn = Var.shape[0]
-
-    #     for i in range(nn):
-    #         Var[i,i] = Var_diag[i]
-
-    #     return Var.to(device = self.device)
-
 
     def online_init(self, ui_cls: UI_cls, data_cls):
         super().online_init(ui_cls, data_cls)

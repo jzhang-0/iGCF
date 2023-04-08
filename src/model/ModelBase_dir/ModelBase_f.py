@@ -168,7 +168,7 @@ class ui_func_base:
             
             self.rho = torch.zeros(self.embedding_dim, requires_grad=True)
 
-        elif self.modeln in ["GCNICF"]:
+        elif self.modeln in ["GCNICF", "GCNICF_LVI"]:
             
             self.mu = para_dict["mu_u"] * np.ones(self.embedding_dim) # para_dict["mu_u"] = 0
             self.rho = np.zeros(self.embedding_dim)
