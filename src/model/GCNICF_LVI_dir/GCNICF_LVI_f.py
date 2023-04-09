@@ -44,6 +44,9 @@ class GCNICF_LVI(GCNICF):
                 eps = 1e-7               
                 loss += - torch.log(torch.sigmoid((2 * feedback - 1) * UI_rating[u_index, item_indices]) + eps).sum()
 
+
+            loss += self.lambda_u * (Embedding**2).sum()
+
             optimizer.zero_grad()
             loss.backward()
             # torch.nn.utils.clip_grad_norm_(model.parameters(), 5.0)
