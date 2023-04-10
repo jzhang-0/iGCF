@@ -11,7 +11,7 @@ class GCNICF_Meta(GCNICF):
 
     其他
         -[x]:修改 main, modelbase
-        -[]:修改arg，增加meta_update
+        -[x]:修改arg，增加meta_update
     """
     def __init__(self, para_dict, ec) -> None:
         super().__init__(para_dict, ec)
@@ -42,6 +42,14 @@ class GCNICF_Meta(GCNICF):
                 item_indices = user.interacted_item_index
                 feedback = torch.tensor(user.feedback).to(device=self.device)
                 loss += ((UI_rating[u_index, item_indices] - feedback)**2).sum()
+
+                # pos_index = user.interacted_item_index
+
+                neg_set = set(range(N)) - set(item_indices)
+                neg_index = np.random.choice(list(neg_set), len(item_indices), replace= False) 
+
+                loss += ((UI_rating[u_index, neg_index])**2).sum() 
+
             
             loss += self.lambda_u * (Embedding**2).sum()
             

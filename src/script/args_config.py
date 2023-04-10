@@ -61,14 +61,30 @@ def parser_config(parser):
     ### Meta
     parser.add_argument('--meta_update', default = "0", type = str, help='0:no update. half: 1/2. lin: (t = 0, 1, 0) (t = total round, 0, 1)')
 
+
+    parser.add_argument('--debug', default = 0, type = int, help='debug mode')
+
     return parser
+
+import os
+
 
 def config_args(args):
     if args.cuda == -1:
         args.device = "cpu"
     else:
         args.device = f"cuda:{args.cuda}" if torch.cuda.is_available() else "cpu"
-        
+
+    # if args.debug:
+    #     print(f"debug mode")
+    #     threads_num = "4"
+    #     os.environ["OMP_NUM_THREADS"] = threads_num 
+    #     os.environ["OPENBLAS_NUM_THREADS"] = threads_num 
+    #     os.environ["MKL_NUM_THREADS"] = threads_num 
+    #     os.environ["VECLIB_MAXIMUM_THREADS"] = threads_num 
+    #     os.environ["NUMEXPR_NUM_THREADS"] = threads_num 
+
+
     return args
 
         

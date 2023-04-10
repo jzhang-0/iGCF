@@ -12,7 +12,7 @@ threads_num = "4"
 MAX_PROCESS = 12
 
 # exp_id_prefix = "F5"
-exp_id_prefix = "E5"
+exp_id_prefix = "E1"
 
 # param_dict = {
 #     "--datan":["ml-100k"],    # ml-100k  ADS16  KuaiRec ml-1m
@@ -69,9 +69,9 @@ param_dict = {
     "-E":["UCB"],
     "-p":[0.5],
     "--max_iter":[30000],
-    "--K":[3, 4, 5],  # For GCN
+    "--K":[5],  # For GCN
     "--save_cls":[0],
-    "--lambda_u":[1],
+    "--lambda_u":[0.001, 0.1, 0.5, 2],
     "--test_iters":[1000],
     
     "--online_rec_total_num":[120],
@@ -79,7 +79,7 @@ param_dict = {
     "--task":["coldstart"],
     # "--test_para":["adjust"],
     
-    "--meta_update":["0", "lin"],
+    "--meta_update":["lin"],
 
     "--LVI_iters":[3],
     "--online_iter":[50],
