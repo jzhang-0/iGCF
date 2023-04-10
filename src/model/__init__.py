@@ -21,3 +21,4 @@ from .Heuristics_dir import *
 # from .LGCNICF_dir import *
 from .GCNICF_dir import *
 from .GCNICF_LVI_dir import *
+from .GCNICF_Meta_dir import *

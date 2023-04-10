@@ -12,7 +12,7 @@ threads_num = "4"
 MAX_PROCESS = 12
 
 # exp_id_prefix = "F5"
-exp_id_prefix = "E4"
+exp_id_prefix = "E5"
 
 # param_dict = {
 #     "--datan":["ml-100k"],    # ml-100k  ADS16  KuaiRec ml-1m
@@ -33,18 +33,45 @@ exp_id_prefix = "E4"
 #     "--K":[4],  # For GCN
 # }
 
+# param_dict = {
+#     "--datan":["ml-100k"],    # ml-100k  ADS16  KuaiRec ml-1m
+#     "-m":["GCNICF_LVI"],  # LGCNICF LGCNICF_FixG_LTS  LGCNICF_FixG_VI LGCNICF_DynamicG_VI ICF Pop Pos Random MF PosPlus
+#     "-d":[128],
+#     "--lr":[2e-3],
+#     "-v":[0.05],
+#     "-E":["UCB"],
+#     "-p":[0.5],
+#     "--max_iter":[30000],
+#     "--K":[4, 5],  # For GCN
+#     "--save_cls":[0],
+#     "--lambda_u":[0.5, 1, 2],
+#     "--test_iters":[1000],
+    
+#     "--online_rec_total_num":[120],
+#     "--rec_list_len":[1,],
+#     "--task":["coldstart"],
+#     # "--test_para":["adjust"],
+    
+#     "--meta_update":["0"],
+
+#     "--LVI_iters":[3],
+#     "--online_iter":[50],
+#     "--lossfunc": ["reg"],
+# }
+
+
 param_dict = {
     "--datan":["ml-100k"],    # ml-100k  ADS16  KuaiRec ml-1m
-    "-m":["GCNICF_LVI"],  # LGCNICF LGCNICF_FixG_LTS  LGCNICF_FixG_VI LGCNICF_DynamicG_VI ICF Pop Pos Random MF PosPlus
-    "-d":[50],
-    "--lr":[2e-3],
-    "-v":[0.05],
+    "-m":["GCNICF_Meta"],  # LGCNICF LGCNICF_FixG_LTS  LGCNICF_FixG_VI LGCNICF_DynamicG_VI ICF Pop Pos Random MF PosPlus
+    "-d":[128],
+    "--lr":[1e-3],
+    "-v":[1],
     "-E":["UCB"],
     "-p":[0.5],
     "--max_iter":[30000],
-    "--K":[3],  # For GCN
+    "--K":[3, 4, 5],  # For GCN
     "--save_cls":[0],
-    "--lambda_u":[0.01, 0.1, 1, 10, 100],
+    "--lambda_u":[1],
     "--test_iters":[1000],
     
     "--online_rec_total_num":[120],
@@ -52,10 +79,13 @@ param_dict = {
     "--task":["coldstart"],
     # "--test_para":["adjust"],
     
+    "--meta_update":["0", "lin"],
+
     "--LVI_iters":[3],
     "--online_iter":[50],
     "--lossfunc": ["reg"],
 }
+
 
 
 cmd_template = "python src/script/main.py {}"
@@ -147,7 +177,8 @@ def available_gpu():
     utilize_list = []
     for i in range(gpu_num):
         m_percent = float(m_use[i][:-4]) / float(m_total[i][:-4])
-        if m_percent < 0.5 and float(utiliz[i][:-2]) < 50:
+        # if m_percent < 0.5 and float(utiliz[i][:-2]) < 50:
+        if m_percent < 0.8 and float(utiliz[i][:-2]) < 80:
             gpu_list.append(i)
             utilize_list.append(float(utiliz[i][:-2]))
     ii = (-np.array(utilize_list)).argsort()

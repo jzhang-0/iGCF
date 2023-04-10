@@ -28,6 +28,7 @@ def parse_default_config(parser):
 
     parser.add_argument('--test_iters', default = 1000, type = int, help='test_iters')   
 
+    ### LVI
     parser.add_argument('--LVI_iters', default = 2, type = int, help='LVI EM iters')   
         
 
@@ -54,7 +55,12 @@ def parser_config(parser):
     
     parser.add_argument('--lossfunc', default = "reg", type = str, help='loss function, reg or classify')
     
+    ### graph aggreation
     parser.add_argument('--test_para', default = "0", type = str, help='for test constructing graph neightbors matrix.')
+
+    ### Meta
+    parser.add_argument('--meta_update', default = "0", type = str, help='0:no update. half: 1/2. lin: (t = 0, 1, 0) (t = total round, 0, 1)')
+
     return parser
 
 def config_args(args):

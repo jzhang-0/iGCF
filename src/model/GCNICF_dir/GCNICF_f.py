@@ -219,6 +219,8 @@ class GCNICF(ModelBase):
         self.FI_mu = Embedding[-N:,:].detach().numpy()
         self.FI_var = Var[-N:,:].detach().numpy()
 
+        self.FU_mu = Embedding[:-N,:].detach().numpy()
+        self.FU_var = Var[:-N,:].detach().numpy()
 
     def rec(self,  user, ui_cls:UI_cls):
         """

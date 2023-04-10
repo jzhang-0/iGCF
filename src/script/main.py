@@ -53,13 +53,16 @@ def main():
     elif modeln == "GCNICF_LVI":
         model = GCNICF_LVI(para_dict, ec)
 
+    elif modeln == "GCNICF_Meta":
+        model = GCNICF_Meta(para_dict, ec)
+
     else:
         parser.print_help()
         assert False
     
 
 
-    if modeln in ["GCNICF", "GCNICF_LVI"]:
+    if modeln in ["GCNICF", "GCNICF_LVI", "GCNICF_Meta"]:
         model.train_online_test(ui_cls, dls)
         if para_dict["save_cls"]:
             ec.save_cls(model, "model.class")
