@@ -15,7 +15,7 @@ import copy as cp
 
 # TODO:
 class env(object):
-    def __init__(self, args, dls):
+    def __init__(self, args, dls, ui_cls = None):
         logger.log("initialize environment")
         self.T = args.T
         self.rates = {}
@@ -26,6 +26,7 @@ class env(object):
         self.ideal_list = {}
         self.args = args
         self.dls = dls
+        self.ui_cls = ui_cls
 
         p_data = dls.pre_training_data
 
@@ -112,14 +113,20 @@ class env(object):
                 1:list
         """
         if action in self.rates[self.state[0][0]] and (not action in self.short):
-            rate = self.rates[self.state[0][0]][action]
-            if rate >= 4:
-                reward = 1
-            else:
-                if self.dls.datan in ["KuaiRec"]:
-                    reward = rate
-                else:
-                    reward = 0
+            # rate = self.rates[self.state[0][0]][action]
+            # if rate >= 4:
+            #     reward = 1
+            # else:
+            #     if self.dls.datan in ["KuaiRec"]:
+            #         reward = rate
+            #     else:
+            #         reward = 0
+            
+            online_round = len(self.state[1])
+            uid = self.state[0][0]
+            user = AbstractUser(uid, online_round)
+            rate, reward = self.dls.feedback(user, action)
+
         else:
             rate = 0
             reward = 0
@@ -196,3 +203,8 @@ class env(object):
 
         # return sum([i[1] for i in episode]) / len(self.rates[uid])
         return sum([i[1] for i in episode]) / satisfield_num
+
+class AbstractUser:
+    def __init__(self,id,online_round) -> None:
+        self.online_round = online_round
+        self.id = id

@@ -1,9 +1,12 @@
 TODO:
 
 
+
+- [ ] nicf warm start代码
+
 6.12
 
-- [ ] 加快 ui_cls 代码
+
 
 思路：
     选择和当前用户相关的用户和物品，聚合 equal ICF

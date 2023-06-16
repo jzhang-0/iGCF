@@ -9,13 +9,14 @@ import re
 GPU_USE = True
 GPU_remove_list = []
 threads_num = "4"
-MAX_PROCESS = 8
+MAX_PROCESS = 4
 
 # exp_id_prefix = "F5"
 
-# exp_id_prefix = "F1"
+# exp_id_prefix = "F2_warm"
+# GPU_USE = False
 # param_dict = {
-#     "--datan":["EachMovie"],    # ml-100k  ADS16  KuaiRec ml-1m EachMovie
+#     "--datan":["KuaiRec"],    # ml-100k  ADS16  KuaiRec ml-1m EachMovie
 #     "-m":["Pop", "Pos", "Random"],  # LGCNICF LGCNICF_FixG_LTS  LGCNICF_FixG_VI LGCNICF_DynamicG_VI ICF Pop Pos Random MF PosPlus
 #     "-d":[128],
 #     "-v":[0.5],
@@ -24,35 +25,59 @@ MAX_PROCESS = 8
 #     "--max_iter":[20],
 #     "--online_rec_total_num":[120],
 #     "--rec_list_len":[1,],
-#     "--task":["coldstart"],
+#     # "--task":["coldstart"],
+#     "--task":["warmstart"],
 #     "--lr":[5e-2],
 #     "--lossfunc": ["reg"],
 #     "--online_iter":[50], 
 # }
 
 
-exp_id_prefix = "F1_cold"
-param_dict = {
-    "--datan":["ml-1m"],    # ml-100k  ADS16  KuaiRec ml-1m
-    "-m":["ICF"],  # LGCNICF LGCNICF_FixG_LTS  LGCNICF_FixG_VI LGCNICF_DynamicG_VI ICF Pop Pos Random MF PosPlus
-    "-d":[32, 64],
-    "-v":[0.5, 1],
-    "-E":["UCB", "TS"],
-    "-p":[0.5],
-    "--max_iter":[20],
-    "--online_rec_total_num":[120],
-    "--rec_list_len":[1,],
-    "--task":["coldstart"],
+# exp_id_prefix = "F2_warm"
+# GPU_USE = False
+# param_dict = {
+#     "--datan":["KuaiRec","ml-1m"],    # ml-100k  ADS16  KuaiRec ml-1m EachMovie
+#     "-m":["ICF"],  # LGCNICF LGCNICF_FixG_LTS  LGCNICF_FixG_VI LGCNICF_DynamicG_VI ICF Pop Pos Random MF PosPlus
+#     "-d":[128, 256],
+#     "-v":[0.5, 0.1],
+#     "-E":["UCB", "TS"],
+#     "-p":[0.5],
+#     "--max_iter":[20],
+#     "--online_rec_total_num":[120],
+#     "--rec_list_len":[1,],
+#     # "--task":["coldstart"],
+#     "--task":["warmstart"],
+#     "--lr":[5e-2],
+#     "--lossfunc": ["reg"],
+#     "--online_iter":[50], 
+#     # "--save_cls":[1],
+#     "--K":[4],  # For GCN
+# }
 
-    "--lr":[5e-2],
-    "--lossfunc": ["reg"],
-    "--online_iter":[50], 
-    # "--save_cls":[1],
-    "--K":[4],  # For GCN
-}
+# exp_id_prefix = "F2_warm_mf"
+# GPU_USE = False
+# param_dict = {
+#     "--datan":["KuaiRec","ml-1m"],    # ml-100k  ADS16  KuaiRec ml-1m EachMovie
+#     "-m":["ICF"],  # LGCNICF LGCNICF_FixG_LTS  LGCNICF_FixG_VI LGCNICF_DynamicG_VI ICF Pop Pos Random MF PosPlus
+#     "-d":[128, 256],
+#     "-v":[0],
+#     "-E":["UCB"],
+#     "-p":[0.5],
+#     "--max_iter":[20],
+#     "--online_rec_total_num":[120],
+#     "--rec_list_len":[1,],
+#     # "--task":["coldstart"],
+#     "--task":["warmstart"],
+
+#     "--lr":[5e-2],
+#     "--lossfunc": ["reg"],
+#     "--online_iter":[50], 
+#     # "--save_cls":[1],
+#     "--K":[4],  # For GCN
+# }
 
 # param_dict = {
-#     "--datan":["ml-100k"],    # ml-100k  ADS16  KuaiRec ml-1m
+#     "--datan":["ml-100k"],    # ml-100k  ADS16  KuaiRec ml-1m EachMovie
 #     "-m":["GCNICF_LVI"],  # LGCNICF LGCNICF_FixG_LTS  LGCNICF_FixG_VI LGCNICF_DynamicG_VI ICF Pop Pos Random MF PosPlus
 #     "-d":[128],
 #     "--lr":[1e-3],
@@ -77,33 +102,34 @@ param_dict = {
 #     "--lossfunc": ["reg"],
 # }
 
-# exp_id_prefix = "F1"
-# param_dict = {
-#     "--datan":["EachMovie"],    # ml-100k  ADS16  KuaiRec ml-1m
-#     "-m":["GCNICF_Meta_V2"],  # LGCNICF LGCNICF_FixG_LTS  LGCNICF_FixG_VI LGCNICF_DynamicG_VI ICF Pop Pos Random MF PosPlus
-#     "-d":[128],
-#     "--lr":[5, 1],
-#     "-v":[1],
-#     "-E":["UCB"],
-#     "-p":[0.5],
-#     "--max_iter":[40000],
-#     "--epoch":[30],
-#     "--K":[3, 5],  # For GCN
-#     "--save_cls":[0],
-#     "--lambda_u":[1],
-#     "--test_iters":[1000],
+exp_id_prefix = "F2_warm"
+param_dict = {
+    "--datan":["KuaiRec","ml-1m"],    # ml-100k  ADS16  KuaiRec ml-1m EachMovie
+    "-m":["GCNICF_Meta_V2"],  # LGCNICF LGCNICF_FixG_LTS  LGCNICF_FixG_VI LGCNICF_DynamicG_VI ICF Pop Pos Random MF PosPlus
+    "-d":[128],
+    "--lr":[1, 5],
+    "-v":[1],
+    "-E":["UCB"],
+    "-p":[0.5],
+    "--max_iter":[40000],
+    "--epoch":[30],
+    "--K":[3, 5],  # For GCN
+    "--save_cls":[0],
+    "--lambda_u":[1],
+    "--test_iters":[1000],
     
-#     "--online_rec_total_num":[120],
-#     "--rec_list_len":[1,],
-#     "--task":["coldstart"],
-#     # "--test_para":["adjust"],
+    "--online_rec_total_num":[120],
+    "--rec_list_len":[1,],
+    # "--task":["coldstart"],
+    "--task":["warmstart"],
+    # "--test_para":["adjust"],
     
-#     "--meta_update":["meta_prior"],
+    "--meta_update":["meta_prior"],
 
-#     "--LVI_iters":[3],
-#     "--online_iter":[50],
-#     "--lossfunc": ["reg"],
-# }
+    "--LVI_iters":[3],
+    "--online_iter":[50],
+    "--lossfunc": ["reg"],
+}
 
 # exp_id_prefix = "E1_save"
 # param_dict = {

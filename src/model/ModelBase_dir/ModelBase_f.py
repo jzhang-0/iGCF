@@ -74,9 +74,9 @@ class ModelBase:
 
             rec_item_id, rec_item_id_list = self.rec(user, ui_cls)
 
-            rating, feedback01 = data_cls.feedback(user_id, rec_item_id)
+            rating, feedback01 = data_cls.feedback(user, rec_item_id)
 
-            feedback_ = [data_cls.feedback(user_id, iid) for iid in rec_item_id_list] 
+            feedback_ = [data_cls.feedback(user, iid) for iid in rec_item_id_list] 
             rec_list_ratings = [i[0] for i in feedback_]
             rec_list_feedback01 = [i[1] for i in feedback_]
             
