@@ -2,3 +2,11 @@ kernprof -v -l src/script/main.py -m "Random" --datan "ml-100k" -p 0.001 --onlin
 python -m line_profiler main.py.lprof > results2.txt
 
 tmux kill-session -t zhangjin
+
+tmux attach -t icf
+tmux attach -t zhangjin
+
+tmux new -s zhangjin
+
+conda deactivate
+conda activate base

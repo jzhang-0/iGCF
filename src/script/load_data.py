@@ -30,6 +30,8 @@ class DataBasic:
             self.datapath = "data/KuaiRec_2.0/data/small_matrix.csv"
         elif self.datan == "ADS16":
             self.datapath = "data/ADS16/data.csv"
+        elif self.datan == "EachMovie":
+            self.datapath = "data/EachMovie/eachmovie_triple"
 
 class LoadData(DataBasic):
     def __init__(self, datan: str, **kwargs) -> None:
@@ -42,7 +44,7 @@ class LoadData(DataBasic):
         if self.datan in ["ml-1m", "ml-100k"]:
             
             if self.datan == "ml-1m":
-                df = pd.read_csv(self.datapath, delimiter = '::', names = ['user_id', 'item_id', 'rating', 'time'])
+                df = pd.read_csv(self.datapath, delimiter = '::', names = ['user_id', 'item_id', 'rating', 'time'], engine='python')
             elif self.datan == "ml-100k":
                 df = pd.read_csv(self.datapath, delimiter = '\t', names = ['user_id', 'item_id', 'rating', 'time'])
 
@@ -77,6 +79,19 @@ class LoadData(DataBasic):
 
             self.exposure_satisﬁed = {user_id: (grouped_data.get_group(user_id)['rating'] >= 1).sum() for user_id in grouped_data.groups} 
 
+        elif self.datan == "EachMovie":
+            df = pd.read_csv(self.datapath, sep="   ", engine='python', header=None, names=["item_id", "user_id","rating"], dtype=int)
+            self.seed = kwargs.get("seed", 123)
+            
+            df["feedback01"] = np.where(df['rating'] >= 4, 1, 0)
+            df = df[['user_id', 'item_id', 'rating', "feedback01"]]
+            
+            self.df = df
+            grouped_data = df.groupby('user_id')
+            
+            self.exposure = {user_id: list(grouped_data.get_group(user_id)['item_id']) for user_id in grouped_data.groups} 
+
+            self.exposure_satisﬁed = {user_id: (grouped_data.get_group(user_id)['rating'] >= 1).sum() for user_id in grouped_data.groups} 
 
 
         # elif self.datan == "ADS16":
@@ -117,7 +132,7 @@ class LoadData(DataBasic):
 
         print(f"task = {task}")
 
-        if self.datan in ["ml-1m", "ml-100k", "ADS16"]:
+        if self.datan in ["ml-1m", "ml-100k", "ADS16", "EachMovie"]:
 
             if task == "coldstart": 
                 self.online_data = self.online_data[self.online_data["user_id"].apply(lambda x: x not in list(self.pre_training_user_id))]
@@ -166,7 +181,7 @@ class LoadData(DataBasic):
         """
             return (rating, 01feedback)
         """
-        if self.datan in ["ml-1m", "ml-100k", "ADS16"]:
+        if self.datan in ["ml-1m", "ml-100k", "ADS16", "EachMovie"]:
             df = self.df
 
             # s = df.loc[(df['user_id'] == uid) & (df['item_id'] == iid), 'rating']

@@ -49,6 +49,7 @@ def parser_config(parser):
     parser.add_argument('-E', '--explore_method', default='None', type=str, help='explore method')
     parser.add_argument('-v', '--explore_v', default = 1, type=float, help='explore strength')
     parser.add_argument('--lr', default = 0.01, type=float, help='lr')
+    parser.add_argument('--epoch', default = 10, type=int, help='lr')
     parser.add_argument('--K', default = 3, type=int, help='layers')
 
     parser.add_argument('--cuda', default = -1, type = int, help='gpu number')

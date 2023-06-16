@@ -7,16 +7,16 @@ class GCNICF_Meta(GCNICF):
         -[x]:model_train 增加正则项
         -[x]:online_init 进一步增加,在线数据的分布meta化 , 增加 online_mu and online_cov属性(注意:分布取均值时,只对pretrain中的user取)
         -[x]:rec 取消hasattr判断
-        -[ ]:update_u 增加arg参数,meta更新策略
+        -[x]:update_u 增加arg参数,meta更新策略
 
     其他
         -[x]:修改 main, modelbase
-        -[x]:修改arg，增加meta_update
+        -[x]:修改arg,增加meta_update
     """
     def __init__(self, para_dict, ec) -> None:
         super().__init__(para_dict, ec)
         self.meta_update = para_dict.get("meta_update", "0")
-    
+
     def model_train(self, ui_cls: UI_cls, max_iter=None):
         model = self.gcn
         optimizer = optim.SGD(model.parameters(), lr = self.lr) 
@@ -37,21 +37,31 @@ class GCNICF_Meta(GCNICF):
             I_embedding = Embedding[M:, :]
             UI_rating = U_embedding @ I_embedding.T
             loss = 0
-            for u_index in range(M):
+
+            if M > 500:
+                sample_num  = 500
+                iter_users_index = np.random.choice(M, size = sample_num, replace=False)
+            else:
+                iter_users_index = np.arange(M)
+            
+            total_datapoints_num = 0
+            for u_index in iter_users_index:
                 user = ui_cls.get_user_by_index(u_index)
                 item_indices = user.interacted_item_index
                 feedback = torch.tensor(user.feedback).to(device=self.device)
+
+                total_datapoints_num += len(item_indices)
                 loss += ((UI_rating[u_index, item_indices] - feedback)**2).sum()
 
-                # pos_index = user.interacted_item_index
+                if len(item_indices) < N / 4:
+                    neg_set = set(range(N)) - set(item_indices)
+                    neg_index = np.random.choice(list(neg_set), len(item_indices), replace= False) 
 
-                neg_set = set(range(N)) - set(item_indices)
-                neg_index = np.random.choice(list(neg_set), len(item_indices), replace= False) 
+                    total_datapoints_num += len(item_indices)
+                    loss += ((UI_rating[u_index, neg_index])**2).sum() 
 
-                loss += ((UI_rating[u_index, neg_index])**2).sum() 
-
-            
-            loss += self.lambda_u * (Embedding**2).sum()
+            loss = loss / total_datapoints_num            
+            # loss += self.lambda_u * (Embedding[iter_users_index]**2).sum()
             
             optimizer.zero_grad()
             loss.backward()
@@ -62,6 +72,7 @@ class GCNICF_Meta(GCNICF):
 
         self.update_UI_cls(ui_cls, model)
 
+
     def online_init(self, ui_cls: UI_cls, data_cls):
         super().online_init(ui_cls, data_cls)
         dls  = data_cls
@@ -70,11 +81,27 @@ class GCNICF_Meta(GCNICF):
 
         n = len(p_uids)
         
-        p_uindics = [ui_cls.index["user"]["id2index"][user_id] for user_id in p_uids]
+        self.p_uindics = [ui_cls.index["user"]["id2index"][user_id] for user_id in p_uids]
         online_uindics = [ui_cls.index["user"]["id2index"][user_id] for user_id in online_uids]
 
-        self.online_mu_meta = self.FU_mu[p_uindics].mean(0) ## DEBUG dim == d?
-        self.online_cov_meta = np.diag(self.FU_var[p_uindics].mean(0) / n )
+        self.online_mu_meta = self.FU_mu[self.p_uindics].mean(0) 
+        
+        
+        zero_mu = self.FU_mu[self.p_uindics] - self.online_mu_meta
+        self.online_cov_meta = ( zero_mu.T @ zero_mu ) / (n-1)
+
+        # self.online_cov_meta = np.array(self.online_cov_meta, dtype= np.float64)
+        
+         
+        try:
+            self.online_cov_meta_inv = LA.inv(self.online_cov_meta)
+        except:
+            print("WARNING: online_cov_meta is singularity, use np.linalg.pinv instead")
+            self.online_cov_meta_inv = LA.pinv(self.online_cov_meta)
+
+
+        # self.online_cov_meta_diag = self.FU_var[self.p_uindics].mean(0) / n 
+        # self.online_cov_meta = np.diag(self.online_cov_meta_diag)
 
         for uid in online_uids:
             user = ui_cls.get_user_by_id(uid)
@@ -132,6 +159,7 @@ class GCNICF_Meta(GCNICF):
             if self.meta_update == "half":
                 u.online_mu = (online_mu + self.online_mu_meta)/2
                 u.online_cov = ( online_cov + self.online_cov_meta ) / (2**2)
+
             elif self.meta_update == "lin":
                 t = u.online_round
                 T = self.online_rec_total_num 
@@ -141,6 +169,28 @@ class GCNICF_Meta(GCNICF):
 
                 u.online_mu = w_meta * self.online_mu_meta + w_onine * online_mu
                 u.online_cov = (w_meta ** 2) * self.online_cov_meta + (w_onine ** 2) * online_cov
+
+        elif self.meta_update == "meta_prior":
+            u = user
+            index = u.interacted_item_index
+            r = np.array(u.feedback)
+            Du = self.FI_mu[index] 
+
+            # meta_cov_inv = np.diag(self.online_cov_meta_diag ** (-1))
+            meta_cov_inv = self.online_cov_meta_inv
+
+            try:
+                A_inv = LA.inv(Du.T @ Du * (1 / self.sigma ** 2) + meta_cov_inv )
+            except:
+                # print("WARNING: A is singularity, use np.linalg.pinv instead")
+                A_inv = LA.pinv(Du.T @ Du * (1 / self.sigma ** 2) + meta_cov_inv )
+
+            online_mu = A_inv @ ( Du.T @  r + meta_cov_inv @ self.online_mu_meta)
+            online_cov = A_inv
+
+            u.online_mu = online_mu
+            u.online_cov = online_cov
+
         
         else:
             raise Exception(f"not support meta update method {self.meta_update}")
