@@ -9,6 +9,9 @@ rsync.sh
 test.py
 *.lprof
 logdata
+.vscode
+para_dict_log_
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
