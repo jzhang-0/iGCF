@@ -11,7 +11,7 @@ test.py
 logdata
 .vscode
 para_dict_log_
-
+data/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
