@@ -234,7 +234,9 @@ class LoadData(DataBasic):
                     # pre_data = pre_ug.get_group(uid)
                     # sim_vec1 = self.sim_ma[list(pre_data.item_sim_index)].sum(0)
 
-                    sim_vec1 = self.sim_ma[list(u_data.item_sim_index)[:60]].sum(0)                    
+                    l0 = list(u_data.item_sim_index)
+                    l1 = l0[:len(l0) // 2]
+                    sim_vec1 = self.sim_ma[l1].sum(0)  
                     sim_vec2 = sim_vec0 - sim_vec1
                                         
                     sim_score = sim_vec1 @ sim_vec2 / (np.linalg.norm(sim_vec1) * np.linalg.norm(sim_vec2))
@@ -248,8 +250,9 @@ class LoadData(DataBasic):
                 self.warm_start_user_df_set2_dict = {}
                 for uid in self.online_id_stat:
                     u_data = df_ug.get_group(uid)
-                    self.warm_start_user_df_set1_dict[uid] = u_data.iloc[:60]
-                    self.warm_start_user_df_set2_dict[uid] = u_data.iloc[60:]
+                    num_ = len(u_data)//2
+                    self.warm_start_user_df_set1_dict[uid] = u_data.iloc[:num_]
+                    self.warm_start_user_df_set2_dict[uid] = u_data.iloc[num_:]
 
                 self.pre_training_data = self.pre_training_data[self.pre_training_data["user_id"].apply(lambda x: x not in self.online_id_stat)]
 
@@ -298,7 +301,9 @@ class LoadData(DataBasic):
                     # pre_data = pre_ug.get_group(uid)
                     # sim_vec1 = self.sim_ma[list(pre_data.item_sim_index)].sum(0)
 
-                    sim_vec1 = self.sim_ma[list(u_data.item_sim_index)[:60]].sum(0)                    
+                    l0 = list(u_data.item_sim_index)
+                    l1 = l0[:len(l0) // 2]
+                    sim_vec1 = self.sim_ma[l1].sum(0)                    
                     sim_vec2 = sim_vec0 - sim_vec1
                                         
                     sim_score = sim_vec1 @ sim_vec2 / (np.linalg.norm(sim_vec1) * np.linalg.norm(sim_vec2))
@@ -312,8 +317,9 @@ class LoadData(DataBasic):
                 self.warm_start_user_df_set2_dict = {}
                 for uid in self.online_id_stat:
                     u_data = df_ug.get_group(uid)
-                    self.warm_start_user_df_set1_dict[uid] = u_data.iloc[:60]
-                    self.warm_start_user_df_set2_dict[uid] = u_data.iloc[60:]
+                    num_ = len(u_data)//2
+                    self.warm_start_user_df_set1_dict[uid] = u_data.iloc[:num_]
+                    self.warm_start_user_df_set2_dict[uid] = u_data.iloc[num_:]
 
                 self.pre_training_data = self.pre_training_data[self.pre_training_data["user_id"].apply(lambda x: x not in self.online_id_stat)]
             
@@ -340,7 +346,7 @@ class LoadData(DataBasic):
                     user_df = self.warm_start_user_df_set2_dict[uid]
             except:
                 user_df = self.grouped_data.get_group(uid)
-                
+
         elif self.task in ["coldstart"]:
             user_df = self.grouped_data.get_group(uid)
         

@@ -70,16 +70,6 @@ class GCNICF_Meta_V2(GCNICF_Meta):
             i_embed =  self.graph_ma[i_index] @ E0           
 
             loss = (((u_embed * i_embed).sum(1) - rating) ** 2).mean()
-
-
-            # if len(item_indices) < N / 4:
-            #     neg_set = set(range(N)) - set(item_indices)
-            #     neg_index = np.random.choice(list(neg_set), len(item_indices), replace= False) 
-
-            #     total_datapoints_num += len(item_indices)
-            #     loss += ((UI_rating[u_index, neg_index])**2).sum() 
-
-            # loss += self.lambda_u * (Embedding[iter_users_index]**2).sum()
             
             optimizer.zero_grad()
             loss.backward()

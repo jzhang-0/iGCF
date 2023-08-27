@@ -29,7 +29,11 @@ class eval(online):
         nDCG_T_list = [10, 20, 40]
 
         for T in nDCG_T_list:
-        
+            
+            T_limit = 120 // self.rec_list_len
+            if T > T_limit:
+                continue
+
             nDCG = pd.Series([self.data["user"][user_id].nDCG(T, data_cls) for user_id in online_user_id_list]).mean() 
             self.print(f"nDCG_{self.rec_list_len}@{T}:{nDCG}")
             result[f"nDCG_{self.rec_list_len}@{T}"] = nDCG

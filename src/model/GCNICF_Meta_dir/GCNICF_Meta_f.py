@@ -146,7 +146,7 @@ class GCNICF_Meta(GCNICF):
     def update_u(self, user, ui_cls):
         if self.meta_update == "0":
             pass
-        elif self.meta_update in ["half", "lin"]:
+        elif self.meta_update in ["half", "lin", "no_meta"]:
             u = user
             index = u.interacted_item_index
             r = np.array(u.feedback)
@@ -169,6 +169,10 @@ class GCNICF_Meta(GCNICF):
 
                 u.online_mu = w_meta * self.online_mu_meta + w_onine * online_mu
                 u.online_cov = (w_meta ** 2) * self.online_cov_meta + (w_onine ** 2) * online_cov
+            
+            elif self.meta_update == "no_meta":
+                u.online_mu = online_mu 
+                u.online_cov = online_cov
 
         elif self.meta_update == "meta_prior":
             u = user

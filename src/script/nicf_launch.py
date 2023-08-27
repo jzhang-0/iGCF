@@ -7,7 +7,6 @@ import numpy as np
 from args_config import *
 from load_data import *
 from s_utils import *
-from model import UI_cls
 
 import numpy as np
 import ipdb
@@ -80,7 +79,6 @@ def main(args):
 
     print(args)
 
-    # UI_cls()
     env = envs[args.environment](args, dls)
     # ipdb.set_trace()
     # policy network
