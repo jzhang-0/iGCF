@@ -1,13 +1,5 @@
 from ..GCNICF_dir import *
 
-
-
-"""
-重写函数
-    model_train loss改为 classify loss
-    update_u 改为LVI update
-"""
-
 class GCNICF_LVI(GCNICF):
     def __init__(self, para_dict, ec) -> None:
         super().__init__(para_dict, ec)
