@@ -3,15 +3,6 @@ from ..GCNICF_dir import *
 
 class GCNICF_Meta(GCNICF):
     """
-    重写的函数
-        -[x]:model_train 增加正则项
-        -[x]:online_init 进一步增加,在线数据的分布meta化 , 增加 online_mu and online_cov属性(注意:分布取均值时,只对pretrain中的user取)
-        -[x]:rec 取消hasattr判断
-        -[x]:update_u 增加arg参数,meta更新策略
-
-    其他
-        -[x]:修改 main, modelbase
-        -[x]:修改arg,增加meta_update
     """
     def __init__(self, para_dict, ec) -> None:
         super().__init__(para_dict, ec)

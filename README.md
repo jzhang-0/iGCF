@@ -22,7 +22,7 @@ After downloading the datasets, change the data paths accordingly in the file [s
     ``` -->
 
 ## Core Code
-The core model is implemented in the file [GCNICF_Meta](src/model/GCNICF_Meta_V2_dir/GCNICF_Meta_V2_f.py).
+The core model is implemented in the file [iGCF](src/model/GCNICF_Meta_V2_dir/GCNICF_Meta_V2_f.py).
 
 ## Dependencies
 See `requirements.txt` for details

@@ -9,7 +9,6 @@ import torch.optim as optim
 from ..UI_cls_dir import UI_cls
 import copy,os
 import pandas as pd
-# from mypackages.decorator import for_all_methods
 
 
 class GCNICF(ModelBase):
