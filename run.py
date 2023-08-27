@@ -13,22 +13,6 @@ MAX_PROCESS = 6
 
 exp_id_prefix = "1"
 GPU_USE = False
-param_dict = {
-    "--datan":["KuaiRec", "ml-1m", "EachMovie"],    # ml-100k  ADS16  KuaiRec ml-1m EachMovie
-    "-m":["Pop", "Pos", "Random"],  # LGCNICF LGCNICF_FixG_LTS  LGCNICF_FixG_VI LGCNICF_DynamicG_VI ICF Pop Pos Random MF PosPlus
-    "-d":[128],
-    "-v":[0.5],
-    "-E":["UCB"],
-    "-p":[0.5],
-    "--max_iter":[20],
-    "--online_rec_total_num":[120],
-    "--rec_list_len":[3,5],
-    "--task":["coldstart"],
-    "--lr":[5e-2],
-    "--lossfunc": ["reg"],
-    "--online_iter":[50], 
-}
-
 exp_id_prefix = "F45_1_K"
 param_dict = {
     "--datan":["KuaiRec"],    # ml-100k  ADS16  KuaiRec ml-1m EachMovie
@@ -55,6 +39,23 @@ param_dict = {
     "--online_iter":[50],
     "--lossfunc": ["reg"],
 }
+
+# param_dict = {
+#     "--datan":["KuaiRec", "ml-1m", "EachMovie"],    # ml-100k  ADS16  KuaiRec ml-1m EachMovie
+#     "-m":["Pop", "Pos", "Random"],  # LGCNICF LGCNICF_FixG_LTS  LGCNICF_FixG_VI LGCNICF_DynamicG_VI ICF Pop Pos Random MF PosPlus
+#     "-d":[128],
+#     "-v":[0.5],
+#     "-E":["UCB"],
+#     "-p":[0.5],
+#     "--max_iter":[20],
+#     "--online_rec_total_num":[120],
+#     "--rec_list_len":[3,5],
+#     "--task":["coldstart"],
+#     "--lr":[5e-2],
+#     "--lossfunc": ["reg"],
+#     "--online_iter":[50], 
+# }
+
 
 cmd_template = "python src/script/main.py {}"
 
