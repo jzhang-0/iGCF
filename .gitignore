@@ -9,7 +9,7 @@ rsync.sh
 test.py
 *.lprof
 logdata
-# .vscode
+.vscode
 .local
 para_dict_log_
 data/*
