@@ -15,8 +15,8 @@ exp_id_prefix = "1"
 GPU_USE = False
 exp_id_prefix = "F45_1_K"
 param_dict = {
-    "--datan":["KuaiRec"],    # ml-100k  ADS16  KuaiRec ml-1m EachMovie
-    "-m":["GCNICF_Meta_V2"],  # LGCNICF LGCNICF_FixG_LTS  LGCNICF_FixG_VI LGCNICF_DynamicG_VI ICF Pop Pos Random MF PosPlus
+    "--datan":["KuaiRec"],    # ml-100k  KuaiRec ml-1m EachMovie
+    "-m":["GCNICF_Meta_V2"],  # ICF Pop Random  
     "-d":[128],
     "--lr":[1, 5],
     "-v":[1],
@@ -25,24 +25,22 @@ param_dict = {
     "--max_iter":[40000],
     "--epoch":[20],
     "--K":[0, 1, 2],  # For GCN
-    "--save_cls":[0],
     "--lambda_u":[1],
     "--test_iters":[1000],
-    
+
+    "--save_cls":[0],
+
     "--online_rec_total_num":[120],
     "--rec_list_len":[1, 3],
     "--task":["coldstart"],    
     
     "--meta_update":["meta_prior"],
-
-    "--LVI_iters":[3],
-    "--online_iter":[50],
     "--lossfunc": ["reg"],
 }
 
 # param_dict = {
-#     "--datan":["KuaiRec", "ml-1m", "EachMovie"],    # ml-100k  ADS16  KuaiRec ml-1m EachMovie
-#     "-m":["Pop", "Pos", "Random"],  # LGCNICF LGCNICF_FixG_LTS  LGCNICF_FixG_VI LGCNICF_DynamicG_VI ICF Pop Pos Random MF PosPlus
+#     "--datan":["KuaiRec", "ml-1m", "EachMovie"],   
+#     "-m":["Pop", "Pos", "Random"],  # ICF Pop Random  
 #     "-d":[128],
 #     "-v":[0.5],
 #     "-E":["UCB"],
@@ -53,7 +51,6 @@ param_dict = {
 #     "--task":["coldstart"],
 #     "--lr":[5e-2],
 #     "--lossfunc": ["reg"],
-#     "--online_iter":[50], 
 # }
 
 

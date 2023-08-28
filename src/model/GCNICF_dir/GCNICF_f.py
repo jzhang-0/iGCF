@@ -1,5 +1,4 @@
 from ..ModelBase_dir import *
-from ..LGCNICF_FixG_VI_dir import *
 from ..UI_cls_dir import *
 import numpy as np
 import numpy.linalg as LA
