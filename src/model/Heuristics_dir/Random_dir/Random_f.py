@@ -3,7 +3,7 @@ from ...UI_cls_dir import UI_cls
 import numpy as np
 import numpy.linalg as LA
 import random
-from mypackages.decorator import for_all_methods
+# from mypackages.decorator import for_all_methods
 # @for_all_methods(profile)
 class Random(ModelBase):
     """

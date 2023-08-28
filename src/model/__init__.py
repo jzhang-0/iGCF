@@ -5,10 +5,10 @@ from .ICF_dir import *
 # from .Pop_dir import *
 # from .LGCNICF_dir import *
 # from .Pos_dir import *
-from .LGCNICF_Base_dir import *
+# from .LGCNICF_Base_dir import *
 # from .User_dir import *
 # from .Item_dir import *
-from .LGCNICF_FixG_VI_dir import *
+# from .LGCNICF_FixG_VI_dir import *
 # from .LGCNICF_FixG_LTS_dir import *
 # from .MF_dir import *
 # from .DynamicG_VI_dir import *
@@ -20,6 +20,6 @@ from .ModelBase_dir import *
 from .Heuristics_dir import *
 # from .LGCNICF_dir import *
 from .GCNICF_dir import *
-from .GCNICF_LVI_dir import *
+# from .GCNICF_LVI_dir import *
 from .GCNICF_Meta_dir import *
 from .GCNICF_Meta_V2_dir import *

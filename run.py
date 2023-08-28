@@ -9,29 +9,28 @@ import re
 GPU_USE = True
 GPU_remove_list = []
 threads_num = "4"
-MAX_PROCESS = 6
+MAX_PROCESS = 2
 
-exp_id_prefix = "1"
 GPU_USE = False
-exp_id_prefix = "F45_1_K"
+exp_id_prefix = "1"
 param_dict = {
-    "--datan":["KuaiRec"],    # ml-100k  KuaiRec ml-1m EachMovie
-    "-m":["GCNICF_Meta_V2"],  # ICF Pop Random  
+    "--datan":["ml-100k"],    # ml-100k  KuaiRec ml-1m EachMovie
+    "-m":["GCNICF_Meta_V2"],  # ICF Pop Random  GCNICF_Meta_V2
     "-d":[128],
-    "--lr":[1, 5],
+    "--lr":[5],
     "-v":[1],
     "-E":["UCB"],
     "-p":[0.5],
     "--max_iter":[40000],
     "--epoch":[20],
-    "--K":[0, 1, 2],  # For GCN
+    "--K":[3],  # For GCN
     "--lambda_u":[1],
     "--test_iters":[1000],
 
     "--save_cls":[0],
 
     "--online_rec_total_num":[120],
-    "--rec_list_len":[1, 3],
+    "--rec_list_len":[1], # 3
     "--task":["coldstart"],    
     
     "--meta_update":["meta_prior"],
@@ -190,12 +189,16 @@ if GPU_USE:
 else:
     c1 = 100
 c2 = MAX_PROCESS
-p = multiprocessing.Pool(processes = min(c1,c2))
-rets = p.map(exp_runner, commands)
-print(rets)
-
-with open(f"{log_path}/{log_name}", "a") as f:
-    print(f"{now} complete!", file=f)
 
 
-print(path_list)
+
+if __name__ == "__main__":
+    p = multiprocessing.Pool(processes = min(c1,c2))
+    rets = p.map(exp_runner, commands)
+    print(rets)
+
+    with open(f"{log_path}/{log_name}", "a") as f:
+        print(f"{now} complete!", file=f)
+
+
+    print(path_list)
