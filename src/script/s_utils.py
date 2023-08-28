@@ -18,7 +18,6 @@ import yaml
 def print_namespace(args):
     print(yaml.dump(args.__dict__))
 
-# from mypackages.decorator import timefn
 
 import pickle
 

@@ -28,34 +28,6 @@ def main():
     elif modeln == "Pop":
         model = Pop(para_dict, ec)
     
-    # elif modeln == "Pos":
-    #     model = Pos(para_dict, ec)
-    
-    # elif modeln == "PosPlus":
-    #     model = PosPlus(para_dict, ec)
-   
-    # elif modeln == "MF":
-    #     model = MF(para_dict, ec)
-
-    # elif modeln == "LGCNICF_FixG_VI":
-    #     model = LGCNICF_FixG_VI(para_dict, ec)
-    # elif modeln == "LGCNICF_FixG_LTS":
-    #     model = LGCNICF_FixG_LTS(para_dict, ec)
-    # elif modeln == "LGCNICF_DynamicG_VI":
-    #     model = DynamicG_VI(para_dict, ec)
-
-    # elif modeln == "LGCNICF":
-    #     model = LGCNICF(para_dict, ec)
-
-    # elif modeln == "GCNICF":
-    #     model = GCNICF(para_dict, ec)
-
-    # elif modeln == "GCNICF_LVI":
-    #     model = GCNICF_LVI(para_dict, ec)
-
-    # elif modeln == "GCNICF_Meta":
-    #     model = GCNICF_Meta(para_dict, ec)
-
     elif modeln == "GCNICF_Meta_V2":
         model = GCNICF_Meta_V2(para_dict, ec)
 

@@ -19,13 +19,16 @@ class GCNICF_Meta_V2(GCNICF_Meta):
         
         for i in range(self.epoch):
 
-            if i == 0:
-                ui_cls_online = copy.deepcopy(ui_cls)                
-            else:
-                self.model_train(ui_cls, train_data)
-                
-                ui_cls_online = copy.deepcopy(ui_cls)
-           
+            # if i == 0:
+            #     ui_cls_online = copy.deepcopy(ui_cls)                
+            # else:
+            #     self.model_train(ui_cls, train_data)                
+            #     ui_cls_online = copy.deepcopy(ui_cls)
+
+            self.model_train(ui_cls, train_data)                
+            ui_cls_online = copy.deepcopy(ui_cls)
+
+
             self.online(ui_cls_online, data_cls)
             
             result = ui_cls_online.evaluate(data_cls)

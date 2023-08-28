@@ -8,7 +8,7 @@ import pickle
 
 class ExpConfig:
     """
-        实现文件的读写, 记录实验数据
+        Implement file read and write, record experimental data.
     """
     def __init__(self, para_dict) -> None:
         

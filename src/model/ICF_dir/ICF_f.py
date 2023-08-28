@@ -104,19 +104,6 @@ class ICF(ModelBase):
         A_inv = LA.inv(Bi.T @ Bi + self.lambda_i * np.eye(self.embedding_dim))
         i.mu = A_inv @ (Bi.T @ r)
         i.cov = A_inv * (self.sigma ** 2)
-
-    # def MAP_init_U_A(self, ui_cls):
-    #     self.I = ui_cls.get_I(method= "mean")        
-    #     # for uid in ui_cls.data["user"]:
-    #     #     u = ui_cls.data["user"][uid] 
-    #     #     index = u.interacted_item_index
-    #     #     r = np.array(u.feedback)
-    #     #     Du = self.I[index] 
-
-    #     #     u.A = Du.T @ Du + self.lambda_u * np.eye(self.embedding_dim)
-
-    # def online_init(self, ui_cls):
-    #     self.MAP_init_U_A(ui_cls)
     
     def online_init(self, ui_cls, data_cls):
         super().online_init(ui_cls, data_cls)

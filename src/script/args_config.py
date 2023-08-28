@@ -13,20 +13,22 @@ def parse_default_config(parser):
     parser.add_argument('--sigma_i', default = 1, type = float, help='init var vec of item embedding')    
     
     parser.add_argument('-p', '--percentage', default = 0.5, type=float, help='percentage of pretrain data')
+    parser.add_argument('--save_cls', default = 0, type = int, help='save class')   
 
     ### ICF
     parser.add_argument('--lambda_u', default = 1, type = float, help='lambda_u reg')   
     parser.add_argument('--lambda_i', default = 1, type = float, help='lambda_i reg')    
     parser.add_argument('--sigma', default = 1, type = float, help='noise variance')   
     parser.add_argument('--max_iter', default = 10, type = int, help='max_iter in coordinates descent')   
-    
+
+    ### GCN
+    parser.add_argument('--test_iters', default = 1000, type = int, help='test_iters')   
+
     ### LGCNICF
     parser.add_argument('--online_iter', default = 50, type = int, help='max_iter in coordinates descent')   
     parser.add_argument('--init', default = 1, type = int, help='normal init')   
 
-    parser.add_argument('--save_cls', default = 0, type = int, help='save class')   
 
-    parser.add_argument('--test_iters', default = 1000, type = int, help='test_iters')   
 
     ### LVI
     parser.add_argument('--LVI_iters', default = 2, type = int, help='LVI EM iters')   
@@ -75,15 +77,6 @@ def config_args(args):
         args.device = "cpu"
     else:
         args.device = f"cuda:{args.cuda}" if torch.cuda.is_available() else "cpu"
-
-    # if args.debug:
-    #     print(f"debug mode")
-    #     threads_num = "4"
-    #     os.environ["OMP_NUM_THREADS"] = threads_num 
-    #     os.environ["OPENBLAS_NUM_THREADS"] = threads_num 
-    #     os.environ["MKL_NUM_THREADS"] = threads_num 
-    #     os.environ["VECLIB_MAXIMUM_THREADS"] = threads_num 
-    #     os.environ["NUMEXPR_NUM_THREADS"] = threads_num 
 
 
     return args

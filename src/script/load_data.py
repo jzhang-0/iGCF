@@ -122,19 +122,6 @@ class LoadData(DataBasic):
             self.exposure_satisﬁed = {user_id: (grouped_data.get_group(user_id)['rating'] >= 4).sum() for user_id in grouped_data.groups} 
 
 
-        # elif self.datan == "ADS16":
-        #     df = pd.read_csv(self.datapath) 
-        #     seed = kwargs.get("seed", 123)
-        #     df = df.sample(frac = 1, random_state = seed)
-        #     df["feedback01"] = np.where(df['rating'] >= 4, 1, 0)
-
-        #     self.df = df
-
-        #     grouped_data = df.groupby('user_id')
-        #     self.exposure = {user_id: list(grouped_data.get_group(user_id)['item_id']) for user_id in grouped_data.groups} 
-
-        #     self.exposure_satisﬁed = {user_id: (grouped_data.get_group(user_id)['rating'] >= 4).sum() for user_id in grouped_data.groups} 
-
                     
         else:
             assert False
@@ -211,14 +198,8 @@ class LoadData(DataBasic):
                 counts = self.df.groupby("user_id")["rating"].apply(lambda x: (x >= 0).sum())            
                 counts = counts.sort_values()
                 mask = counts < 120
-                # mask.iloc[:-200] = True # only test 200 user
                 data_uid_set = set(self.df[~mask[self.df["user_id"]].values]["user_id"])
 
-                # counts = self.pre_training_data.groupby("user_id")["rating"].apply(lambda x: (x >= 0).sum())            
-                # counts = counts.sort_values()
-                # mask = counts < 30
-                # # mask.iloc[:-200] = True # only test 200 user
-                # train_data_uid_set = set(self.pre_training_data[~mask[self.pre_training_data["user_id"]].values]["user_id"]) 
 
                 uid_list = list( data_uid_set)
 
@@ -226,13 +207,10 @@ class LoadData(DataBasic):
                 sim_df["id"] = uid_list
 
                 df_ug = self.df.groupby("user_id")
-                # pre_ug = self.pre_training_data.groupby("user_id")
+                
                 for uid in uid_list:
                     u_data = df_ug.get_group(uid)
                     sim_vec0 = self.sim_ma[list(u_data.item_sim_index)].sum(0)
-
-                    # pre_data = pre_ug.get_group(uid)
-                    # sim_vec1 = self.sim_ma[list(pre_data.item_sim_index)].sum(0)
 
                     l0 = list(u_data.item_sim_index)
                     l1 = l0[:len(l0) // 2]
@@ -281,11 +259,6 @@ class LoadData(DataBasic):
                 # mask.iloc[:-200] = True # only test 200 user
                 data_uid_set = set(self.df[~mask[self.df["user_id"]].values]["user_id"])
 
-                # counts = self.pre_training_data.groupby("user_id")["rating"].apply(lambda x: (x >= 0).sum())            
-                # counts = counts.sort_values()
-                # mask = counts < 30
-                # # mask.iloc[:-200] = True # only test 200 user
-                # train_data_uid_set = set(self.pre_training_data[~mask[self.pre_training_data["user_id"]].values]["user_id"]) 
 
                 uid_list = list( data_uid_set)
 
@@ -298,8 +271,6 @@ class LoadData(DataBasic):
                     u_data = df_ug.get_group(uid)
                     sim_vec0 = self.sim_ma[list(u_data.item_sim_index)].sum(0)
 
-                    # pre_data = pre_ug.get_group(uid)
-                    # sim_vec1 = self.sim_ma[list(pre_data.item_sim_index)].sum(0)
 
                     l0 = list(u_data.item_sim_index)
                     l1 = l0[:len(l0) // 2]
@@ -363,12 +334,7 @@ class LoadData(DataBasic):
                 feedback_ = 0 if rating <= 3 else 1
                 return rating, feedback_ 
        
-        elif self.datan in ["KuaiRec"]:
-            # s = df.loc[(df['user_id'] == uid) & (df['item_id'] == iid), 'rating']
-            # s = df.query("user_id == @uid and item_id == @item_id")["rating"]
-            
-            # user_df = self.grouped_data.get_group(uid)
-            
+        elif self.datan in ["KuaiRec"]:                        
             s = user_df.loc[(user_df["item_id"] == iid), "rating"]
             if len(s) == 0:
                 return 0,0

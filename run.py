@@ -6,12 +6,12 @@ import time
 import numpy as np
 import re
 
-GPU_USE = True
+GPU_USE = False
 GPU_remove_list = []
 threads_num = "4"
-MAX_PROCESS = 2
+MAX_PROCESS = 4
 
-GPU_USE = False
+
 exp_id_prefix = "1"
 param_dict = {
     "--datan":["ml-100k"],    # ml-100k  KuaiRec ml-1m EachMovie
@@ -19,7 +19,7 @@ param_dict = {
     "-d":[128],
     "--lr":[5],
     "-v":[1],
-    "-E":["UCB"],
+    "-E":["UCB"], 
     "-p":[0.5],
     "--max_iter":[40000],
     "--epoch":[20],
@@ -27,19 +27,19 @@ param_dict = {
     "--lambda_u":[1],
     "--test_iters":[1000],
 
-    "--save_cls":[0],
-
     "--online_rec_total_num":[120],
     "--rec_list_len":[1], # 3
     "--task":["coldstart"],    
+    "--save_cls":[0],
     
-    "--meta_update":["meta_prior"],
+    "--meta_update":["meta_prior"], # For iGCF
     "--lossfunc": ["reg"],
 }
 
+# example
 # param_dict = {
 #     "--datan":["KuaiRec", "ml-1m", "EachMovie"],   
-#     "-m":["Pop", "Pos", "Random"],  # ICF Pop Random  
+#     "-m":["Pop", "ICF", "Random"],  # ICF Pop Random  
 #     "-d":[128],
 #     "-v":[0.5],
 #     "-E":["UCB"],
@@ -142,7 +142,6 @@ def available_gpu():
     utilize_list = []
     for i in range(gpu_num):
         m_percent = float(m_use[i][:-4]) / float(m_total[i][:-4])
-        # if m_percent < 0.5 and float(utiliz[i][:-2]) < 50:
         if m_percent < 0.8 and float(utiliz[i][:-2]) < 80:
             gpu_list.append(i)
             utilize_list.append(float(utiliz[i][:-2]))
@@ -179,7 +178,6 @@ def exp_runner(cmd):
             proc_to_gpu_map[process_id] = gpus.pop()
             print("assign gpu {} to {}".format(proc_to_gpu_map[process_id], process_id))
 
-        # print(cmd + ' -gpu {}'.format(proc_to_gpu_map[process_id]))
         return os.system(cmd + " --cuda {}".format(proc_to_gpu_map[process_id]))
     else:
         print(f"{process_id=}") 
