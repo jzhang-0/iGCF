@@ -11,6 +11,13 @@ The three datasets used in the paper can be downloaded from the following links:
 - Dataset 3: [EachMovie](http://www.gatsby.ucl.ac.uk/~chuwei/data/EachMovie/eachmovie.html)
 
 After downloading the datasets, change the data paths accordingly in the file [src/script/load_data.py](src/script/load_data.py).
+
+## Core Code
+The core model is implemented in the file [iGCF](src/model/GCNICF_Meta_V2_dir/GCNICF_Meta_V2_f.py).
+
+## Dependencies
+See `requirements.txt` for details
+
 <!-- ## How to Run the Code
 1. Install the necessary dependencies (it's recommended to do this in a virtual environment):
     ```bash
@@ -20,9 +27,3 @@ After downloading the datasets, change the data paths accordingly in the file [s
     ```bash
     python run.py
     ``` -->
-
-## Core Code
-The core model is implemented in the file [iGCF](src/model/GCNICF_Meta_V2_dir/GCNICF_Meta_V2_f.py).
-
-## Dependencies
-See `requirements.txt` for details

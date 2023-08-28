@@ -36,7 +36,7 @@ param_dict = {
     "--lossfunc": ["reg"],
 }
 
-# example
+# examples
 # param_dict = {
 #     "--datan":["KuaiRec", "ml-1m", "EachMovie"],   
 #     "-m":["Pop", "ICF", "Random"],  # ICF Pop Random  
