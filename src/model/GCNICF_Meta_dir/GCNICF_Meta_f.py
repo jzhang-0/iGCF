@@ -80,8 +80,6 @@ class GCNICF_Meta(GCNICF):
         
         zero_mu = self.FU_mu[self.p_uindics] - self.online_mu_meta
         self.online_cov_meta = ( zero_mu.T @ zero_mu ) / (n-1)
-
-        # self.online_cov_meta = np.array(self.online_cov_meta, dtype= np.float64)
         
          
         try:
@@ -91,8 +89,6 @@ class GCNICF_Meta(GCNICF):
             self.online_cov_meta_inv = LA.pinv(self.online_cov_meta)
 
 
-        # self.online_cov_meta_diag = self.FU_var[self.p_uindics].mean(0) / n 
-        # self.online_cov_meta = np.diag(self.online_cov_meta_diag)
 
         for uid in online_uids:
             user = ui_cls.get_user_by_id(uid)
@@ -177,7 +173,6 @@ class GCNICF_Meta(GCNICF):
             try:
                 A_inv = LA.inv(Du.T @ Du * (1 / self.sigma ** 2) + meta_cov_inv )
             except:
-                # print("WARNING: A is singularity, use np.linalg.pinv instead")
                 A_inv = LA.pinv(Du.T @ Du * (1 / self.sigma ** 2) + meta_cov_inv )
 
             online_mu = A_inv @ ( Du.T @  r + meta_cov_inv @ self.online_mu_meta)

@@ -29,7 +29,6 @@ class GCNICF(ModelBase):
         self.explore_v = para_dict.get("explore_v", 1) 
 
         self.test_iters = para_dict.get("test_iters", 1000)
-        # self.test_num = para_dict.get("test_num", 100)
 
         self.max_iter = para_dict["max_iter"]
         self.online_iter = para_dict.get("online_iter", 50)
@@ -124,7 +123,6 @@ class GCNICF(ModelBase):
             - [x] self.update_UI_cls
         """
 
-        # model = self.construct_model(ui_cls)
         model = self.gcn
         optimizer = optim.SGD(model.parameters(), lr = self.lr) 
         
